@@ -2,54 +2,38 @@
 #include <stdlib.h>
 #include <time.h>
 
-/* Prototypes from game.h added inline to avoid missing include file */
-void print_menu(void);
-int get_computer_choice(void);
-void print_choice(int choice);
-int determine_winner(int user, int computer);
-
 int main() {
-    int user, computer, result;
-    char playAgain;
+    int player, computer;
 
-    srand(time(NULL)); // Initialize random seed
+    printf("Rock, Paper, Scissors Game!\n");
+    printf("0 = Rock\n1 = Paper\n2 = Scissors\n");
 
-    do {
-        print_menu();
-        scanf("%d", &user);
+    printf("Enter your choice (0-2): ");
+    scanf("%d", &player);
 
-        if (user < 0 || user > 2) {
-            printf("Invalid choice. Try again.\n");
-            continue;
-        }
+    if (player < 0 || player > 2) {
+        printf("Invalid choice! Please enter 0, 1, or 2.\n");
+        return 0;
+    }
 
-        computer = get_computer_choice();
+    srand(time(0));
+    computer = rand() % 3;
 
-        printf("You chose: ");
-        print_choice(user);
-        printf("\n");
+    printf("You chose: %d\n", player);
+    printf("Computer chose: %d\n", computer);
 
-        printf("Computer chose: ");
-        print_choice(computer);
-        printf("\n");
-
-        result = determine_winner(user, computer);
-
-        if (result == 0)
-            printf("Result: It's a tie!\n");
-        else if (result == 1)
-            printf("Result: You win!\n");
-        else
-            printf("Result: Computer wins!\n");
-
-        printf("Play again? (y/n): ");
-        scanf(" %c", &playAgain);
-
-        printf("\n");
-
-    } while (playAgain == 'y' || playAgain == 'Y');
-
-    printf("Thank you for playing!\n");
+    if (player == computer) {
+        printf("It's a draw!\n");
+    }
+    else if ((player == 0 && computer == 2) ||
+             (player == 1 && computer == 0) ||
+             (player == 2 && computer == 1)) {
+        printf("You win!\n");
+    }
+    else {
+        printf("Computer wins!\n");
+    }
 
     return 0;
 }
+
